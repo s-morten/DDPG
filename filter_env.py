@@ -4,7 +4,7 @@ import gym
 def makeFilteredEnv(env):
   """ crate a new environment class with actions and states normalized to [-1,1] """
   acsp = env.action_space
-  obsp = env.observation_space
+  obsp = env.observation_space['observation']
   if not type(acsp)==gym.spaces.box.Box:
     raise RuntimeError('Environment with continous action space (i.e. Box) required.')
   if not type(obsp)==gym.spaces.box.Box:
@@ -71,7 +71,7 @@ def makeFilteredEnv(env):
 
       obs, reward, term, info = env_type.step(self,ac_f) # super function
 
-      obs_f = self.filter_observation(obs)
+      obs_f = self.filter_observation(obs['observation'])
 
       return obs_f, reward, term, info
 

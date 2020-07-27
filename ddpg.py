@@ -7,10 +7,10 @@ import gym
 import tensorflow as tf
 import numpy as np
 from ou_noise import OUNoise
-from critic_network import CriticNetwork 
-from actor_network_bn import ActorNetwork
+from critic_network import CriticNetwork
+#from actor_network_bn import ActorNetwork
 from replay_buffer import ReplayBuffer
-
+from actor_network import ActorNetwork
 # Hyper Parameters:
 
 REPLAY_BUFFER_SIZE = 1000000
@@ -33,7 +33,7 @@ class DDPG:
 
         self.actor_network = ActorNetwork(self.sess,self.state_dim,self.action_dim)
         self.critic_network = CriticNetwork(self.sess,self.state_dim,self.action_dim)
-        
+
         # initialize replay buffer
         self.replay_buffer = ReplayBuffer(REPLAY_BUFFER_SIZE)
 
@@ -54,11 +54,11 @@ class DDPG:
         action_batch = np.resize(action_batch,[BATCH_SIZE,self.action_dim])
 
         # Calculate y_batch
-        
+
         next_action_batch = self.actor_network.target_actions(next_state_batch)
         q_value_batch = self.critic_network.target_q(next_state_batch,next_action_batch)
-        y_batch = []  
-        for i in range(len(minibatch)): 
+        y_batch = []
+        for i in range(len(minibatch)):
             if done_batch[i]:
                 y_batch.append(reward_batch[i])
             else :
@@ -101,13 +101,3 @@ class DDPG:
         # Re-iniitialize the random process when an episode ends
         if done:
             self.exploration_noise.reset()
-
-
-
-
-
-
-
-
-
-

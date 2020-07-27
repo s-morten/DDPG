@@ -1,4 +1,4 @@
-import tensorflow as tf 
+import tensorflow as tf
 import numpy as np
 import math
 
@@ -109,5 +109,3 @@ class ActorNetwork:
 		self.saver.save(self.sess, 'saved_actor_networks/' + 'actor-network', global_step = time_step)
 
 '''
-
-		
